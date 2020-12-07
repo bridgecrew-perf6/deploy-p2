@@ -29,8 +29,7 @@ class TaskListRepository extends BaseRepository implements TaskListRepositoryInt
             $activities = $taskList->tasks()
                 ->where('is_completed', true)
                 ->orderBy('tasks.updated_at', 'desc')
-                ->addSelect(['date' => Tasks::select(DB::raw('date(tasks.updated_at)')])
-                ->select(DB::raw('count(date) as activities'))
+                ->select(DB::raw('count(tasks.updated_at) as activities'), DB::raw('date(tasks.updated_at) as date'))
                 ->groupBy('date')
                 ->get();
 
